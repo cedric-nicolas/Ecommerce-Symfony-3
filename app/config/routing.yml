@@ -1,0 +1,18 @@
+pages:
+    resource: "@PagesBundle/Resources/config/routing.yml"
+    prefix:   /
+
+ecommerce:
+    resource: "@EcommerceBundle/Resources/config/routing.yml"
+    prefix:   /
+    # prefix:   /{_locale}/
+
+utilisateurs:
+    resource: "@UtilisateursBundle/Resources/config/routing.yml"
+    prefix:   /
+
+_liip_imagine:
+    resource: "@LiipImagineBundle/Resources/config/routing.xml"
+
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

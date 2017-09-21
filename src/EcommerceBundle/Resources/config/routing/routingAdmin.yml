@@ -1,0 +1,3 @@
+routingAdmin:
+    path:     /
+    defaults: { _controller: EcommerceBundle:ProduitsAdmin:index }

@@ -1,0 +1,94 @@
+services:
+#    ecommerce.example:
+#        class: EcommerceBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
+
+
+    gedmo.listener.blameable:
+        class: Gedmo\Blameable\BlameableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, ['@annotation_reader'] ]
+
+    gedmo.listener.tree:
+        class: Gedmo\Tree\TreeListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, ['@annotation_reader']]
+
+    gedmo.listener.translatable:
+        class: Gedmo\Translatable\TranslatableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, ['@annotation_reader' ] ]
+            - [ setDefaultLocale, ['%locale%'] ]
+            - [ setTranslationFallback, [ false ] ]
+
+    gedmo.listener.timestampable:
+        class: Gedmo\Timestampable\TimestampableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, ['@annotation_reader'] ]
+
+    gedmo.listener.sluggable:
+        class: Gedmo\Sluggable\SluggableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, ['@annotation_reader'] ]
+
+    gedmo.listener.sortable:
+        class: Gedmo\Sortable\SortableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, ['@annotation_reader'] ]
+
+    gedmo.listener.loggable:
+        class: Gedmo\Loggable\LoggableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, ['@annotation_reader'] ]
+
+    gedmo.listener.softdeleteable:
+        class: Gedmo\SoftDeleteable\SoftDeleteableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, ['@annotation_reader'] ]
+
+    tva:
+       class: EcommerceBundle\Twig\Extension\TvaExtension
+       tags:
+           - { name: twig.extension }
+
+    montantTva:
+        class: EcommerceBundle\Twig\Extension\MontantTvaExtension
+        tags:
+            - { name: twig.extension }
+
+    redirectionListener:
+        class: EcommerceBundle\Listener\RedirectionListener
+        arguments: ['@service_container','@session']
+        tags:
+          - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    setNewFacture:
+        class: EcommerceBundle\Services\getFacture
+        arguments: ['@service_container']
+
+    setNewReference:
+        class: EcommerceBundle\Services\getReference
+        arguments: ['@security.token_storage','@doctrine.orm.entity_manager']
+
+    ecommerce.form.utilisateurs.adresses:
+        class: EcommerceBundle\Form\UtilisateursAdressesType
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+        - { name: form.type }
+
